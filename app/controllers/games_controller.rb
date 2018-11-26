@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'json'
+
 class GamesController < ApplicationController
   def new
     @letters = []
@@ -5,8 +8,11 @@ class GamesController < ApplicationController
       new_letter = ('a'..'z').to_a.sample
       @letters << new_letter
     end
+
   end
 
   def score
+    raise
+    binding.pry
   end
 end
