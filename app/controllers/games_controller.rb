@@ -2,6 +2,7 @@ require 'open-uri'
 require 'json'
 
 class GamesController < ApplicationController
+  # before_action :
   def new
     @letters = []
     10.times do
@@ -11,9 +12,13 @@ class GamesController < ApplicationController
   end
 
   def score
-    @attempt = params[:word]
-    @valid = @attempt.split(//).all? do |letter|
-      @attempt.delete_at(@attempt.index(letter)) if @attempt.include?(letter)
+    attempt = params[:word]
+    if valid?(attempt) == false
+      return "Sorry but #{attempt} can't be build out of #{@letters}"
+    elsif english_word(attempt) == false
+      return "Sorry but #{attempt} is not a valid English word ..."
+    else
+      return "Congratulations ! #{attempt} is a valid English word ! "
     end
   end
 
@@ -24,9 +29,11 @@ class GamesController < ApplicationController
     english_word_check['found']
   end
 
-  def run_games(attempt)
-
+  def valid?(attempt)
+    array = params[:letters].split(',')
+    valid = attempt.split(//).all? do |letter|
+      array.delete_at(array.index(letter)) if array.include?(letter)
+    end
+    valid
   end
-
-
 end
